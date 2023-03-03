@@ -1,0 +1,40 @@
+table {
+  text-align: left;
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #d7d7d780;
+}
+
+.th {
+  padding: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #0e814a;
+  background: #b6f6d833;
+  text-transform: capitalize;
+  border-right: 1px solid #d7d7d780;
+}
+
+.tbody {
+  font-size: 0.65rem;
+}
+.recentReview button {
+  background-color: #0e814a;
+  color: aliceblue;
+  border: none;
+  outline: none;
+  font-size: 11px;
+  padding: 4px 12px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+tr a {
+  text-decoration: none;
+  color: #fff;
+  padding: 3px 10px;
+  font-size: 12px;
+  border-radius: 3px;
+  background: #0e814a;
+}

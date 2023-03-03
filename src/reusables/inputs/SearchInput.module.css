@@ -1,0 +1,26 @@
+.search-box {
+  display: flex;
+  align-items: center;
+  margin-left: 50%;
+  background: #f8fdff;
+  /* width: 27.5em; */
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 10px;
+}
+.search-box svg {
+  color: grey;
+}
+
+.search-box input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+.search-box input::placeholder {
+  font-size: 10px;
+}
