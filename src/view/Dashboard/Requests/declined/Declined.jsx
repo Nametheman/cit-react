@@ -102,7 +102,7 @@ const Declined = () => {
     };
 
     getPendingRequests();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     if (myData?.length < postsPerPage) {

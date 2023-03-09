@@ -19,13 +19,14 @@ const Search = ({ changeFunction }) => {
 export default Search;
 
 const SearchWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   border: 1px solid #0e814a;
-  width: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 500px;
   height: 35px;
-  border-radius: 10px;
+  border-radius: 8px;
+  padding-left: 10px;
   overflow: hidden;
 
   svg {
@@ -35,9 +36,8 @@ const SearchWrapper = styled.div`
   }
 
   input {
-    width: 100%;
-    color: #3d3d3d;
-    height: 100%;
+    width: 75%;
+    height: 90%;
     border: none;
     outline: none;
 
@@ -47,9 +47,13 @@ const SearchWrapper = styled.div`
   }
 
   p {
-    font-size: 11px;
-    color: #fff;
-    padding: 10px 30px;
+    font-size: 13px;
+    text-align: center;
     background: #0e814a;
+    color: #fff;
+    padding: 10px 20px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    cursor: pointer;
   }
 `;

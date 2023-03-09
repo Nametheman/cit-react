@@ -89,7 +89,7 @@ const Home = () => {
 
   const searchChangeHandler = (e) => {
     setLoading(true);
-    setSearchParams(e.target.value.trim(""));
+    setSearchParams(e.target.value.trim(" "));
     setLoading(false);
   };
 
@@ -101,7 +101,7 @@ const Home = () => {
     if (endPage > currentPage) {
       setEndCount(currentPage * 10);
     }
-  }, [currentPage]);
+  }, [currentPage, searchParams]);
 
   useEffect(() => {
     const getCustomers = async () => {
@@ -126,7 +126,7 @@ const Home = () => {
     };
 
     getCustomers();
-  }, [currentPage, searchParams]);
+  }, [currentPage]);
 
   console.log(data);
   console.log(loading);
@@ -185,69 +185,67 @@ const Home = () => {
 
   return (
     <Wrapper>
-      <SkeletonTheme baseColor="#8b8a8a" highlightColor="#d2d0d0">
-        <PageContainer>
-          <div className="table-container">
-            <div
-              className="table-head"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <h3>Customers</h3>
-              <Search changeFunction={searchChangeHandler} />
-            </div>
+      <PageContainer>
+        <div className="table-container">
+          <div
+            className="table-head"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <h3>Customers</h3>
+            <Search changeFunction={searchChangeHandler} />
           </div>
+        </div>
 
-          <FilterContainer>
-            <div className="buttonWrapper">
-              <img src={downloadCloud} alt="download" />
-              <button onClick={csvExportHandler}>Export Report</button>
-            </div>
-          </FilterContainer>
-          <TableWrapper>
-            {loading ? (
-              <Skeleton width={"100%"} height={"400px"} />
-            ) : (
-              <ReusableTable
-                init={init}
-                type="customers"
-                data={myData}
-                columns={columns}
-              />
-            )}
-            {loading ? (
-              ""
-            ) : (
-              <PaginationWrapper>
-                <h5>
-                  Showing {startCount} to {endCount} of {dataLength} Entries
-                </h5>
-                <PaginationBtnWrapper>
-                  <button onClick={prevPageHandler}>Previous</button>
-                  {myPageNumbers.map((number) => (
-                    <div key={number} className="numbers">
-                      <p
-                        href="#"
-                        style={{
-                          background: currentPage === number ? "#868d024a" : "",
-                        }}
-                        key={number}
-                      >
-                        {number}
-                      </p>
-                    </div>
-                  ))}
-                  <button onClick={nextPageHandler}>Next</button>
-                </PaginationBtnWrapper>
-              </PaginationWrapper>
-            )}
-            {/* {currentPage} */}
-          </TableWrapper>
-        </PageContainer>
-      </SkeletonTheme>
+        <FilterContainer>
+          <div className="buttonWrapper">
+            <img src={downloadCloud} alt="download" />
+            <button onClick={csvExportHandler}>Export Report</button>
+          </div>
+        </FilterContainer>
+        <TableWrapper>
+          {loading ? (
+            <Skeleton height={"400px"} />
+          ) : (
+            <ReusableTable
+              init={init}
+              type="customers"
+              data={myData}
+              columns={columns}
+            />
+          )}
+          {loading ? (
+            ""
+          ) : (
+            <PaginationWrapper>
+              <h5>
+                Showing {startCount} to {endCount} of {dataLength} Entries
+              </h5>
+              <PaginationBtnWrapper>
+                <button onClick={prevPageHandler}>Previous</button>
+                {myPageNumbers.map((number) => (
+                  <div key={number} className="numbers">
+                    <p
+                      href="#"
+                      style={{
+                        background: currentPage === number ? "#868d024a" : "",
+                      }}
+                      key={number}
+                    >
+                      {number}
+                    </p>
+                  </div>
+                ))}
+                <button onClick={nextPageHandler}>Next</button>
+              </PaginationBtnWrapper>
+            </PaginationWrapper>
+          )}
+          {/* {currentPage} */}
+        </TableWrapper>
+      </PageContainer>
     </Wrapper>
   );
 };

@@ -48,8 +48,7 @@ export default function Bar({ data }) {
 
   return (
     <div>
-      {" "}
-      <Chart options={options} series={series} width={690} height={300} />
+      <Chart options={options} series={series} height={300} />
     </div>
   );
 }

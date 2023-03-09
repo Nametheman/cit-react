@@ -102,7 +102,7 @@ const Approved = () => {
     };
 
     getApprovedRequests();
-  }, []);
+  }, [currentPage]);
   console.log(data);
 
   useEffect(() => {

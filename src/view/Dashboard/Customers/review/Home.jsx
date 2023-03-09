@@ -21,8 +21,16 @@ import downloadCloud from "../../../../assets/icons/download-cloud.svg";
 import addIcon from "../../../../assets/icons/add-icon.svg";
 import { BASE_URL } from "../../../../config/config";
 import { AiOutlineStop, AiFillLock, AiFillUnlock } from "react-icons/ai";
+import Skeleton from "react-loading-skeleton";
+import Swal from "sweetalert2";
+import moment from "moment";
+
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
+  const Swal = require("sweetalert2");
+
   const token = JSON.parse(sessionStorage.getItem("token"));
   const customerId = JSON.parse(sessionStorage.getItem("customerId"));
   const [data, setData] = useState(null);
@@ -82,17 +90,20 @@ const Home = () => {
     // setExamplePayload((examplePayload) => ({}));
     console.log(payload);
     payload.staff_status = true;
+    updateAccountDetails();
   };
 
   const removeFromAdminHnalder = () => {
     setCurrentlyAdmin(false);
     console.log(payload);
     payload.staff_status = false;
+    updateAccountDetails();
   };
 
   const lockAccountHandler = () => {
     setCurrentlyLocked(true);
     console.log(payload);
+    updateAccountDetails();
   };
 
   const unlockAccountHandler = () => {
@@ -100,6 +111,7 @@ const Home = () => {
     // payload.is_active = true;
     payload.is_active = currentlyLocked;
     console.log(payload);
+    updateAccountDetails();
   };
 
   const trsfLimitHandler = (e) => {
@@ -122,9 +134,35 @@ const Home = () => {
       });
       const data = await response.json();
       console.log(data);
+
       setPostLoading(false);
       if (response.status === 200) {
+        Swal.fire({
+          title: "Success!",
+          text: "Account status/limit changed successfully",
+          icon: "success",
+          confirmButtonText: "Close",
+          width: "25em",
+          height: "4em",
+          background: "#3d3d3d",
+          color: "#ffffff",
+          timer: 3000,
+          timerProgressBar: true,
+        });
+        // toast("hi");
       } else {
+        Swal.fire({
+          title: " ",
+          text: "An error occurred, please try again!",
+          icon: "error",
+          confirmButtonText: "Close",
+          width: "25em",
+          height: "4em",
+          background: "#3d3d3d",
+          color: "#ffffff",
+          timer: 3000,
+          timerProgressBar: true,
+        });
       }
     } catch (err) {
       console.log(err);
@@ -136,166 +174,184 @@ const Home = () => {
     updateAccountDetails();
   };
 
+  const formattedDOB = data?.customer_detail?.dob.split(" ")[0];
+
   // console.log(limit, dailyLimit);
   payload.transfer_limit = Number(limit);
   payload.daily_limit = Number(dailyLimit);
   payload.staff_status = currentlyAdmin;
   return (
     <Wrapper>
-      <PageContainer style={{ padding: "10px" }}>
-        <Content>
-          <Link to="/customers">
-            <BsFillArrowLeftCircleFill />
-          </Link>
-          <DetaiLContent>
-            <ClientInfoWrapper>
-              <ClientImageContainer>
-                <img style={{ width: "130px" }} src={data?.image} alt="" />
-                <span className="camera-icons">
-                  <img src={camera} alt="" />
-                </span>
-              </ClientImageContainer>
-              <ClientName>
-                <h3>
-                  {data?.customer_detail?.first_name}{" "}
-                  {data?.customer_detail?.last_name}
-                </h3>
-                <p style={{ textTransform: "none" }}>
-                  {data?.customer_detail?.email}
-                </p>
-                <p>{data?.customer_detail?.phone_no}</p>
-              </ClientName>
-            </ClientInfoWrapper>
-          </DetaiLContent>
+      <>
+        {loading === true ? (
+          <Skeleton
+            width={"100%"}
+            height={"700px"}
+            style={{ marginTop: "20px" }}
+          />
+        ) : (
+          <PageContainer style={{ padding: "10px" }}>
+            <Content>
+              <Link to="/customers">
+                <BsFillArrowLeftCircleFill />
+              </Link>
+              <DetaiLContent>
+                <ClientInfoWrapper>
+                  <ClientImageContainer>
+                    <img style={{ width: "130px" }} src={data?.image} alt="" />
+                    <span className="camera-icons">
+                      <img src={camera} alt="" />
+                    </span>
+                  </ClientImageContainer>
+                  <ClientName>
+                    <h3>
+                      {data?.customer_detail?.first_name}{" "}
+                      {data?.customer_detail?.last_name}
+                    </h3>
+                    <p style={{ textTransform: "none" }}>
+                      {data?.customer_detail?.email}
+                    </p>
+                    <p>{data?.customer_detail?.phone_no}</p>
+                  </ClientName>
+                </ClientInfoWrapper>
+              </DetaiLContent>
 
-          <ClientContent>
-            <div style={{ borderBottom: "1px solid #e0e0e0" }}>
-              <Header>
-                <h3>Account Information</h3>
-                <div className="actionBtns">
-                  <div className="downloadBtn">
-                    <img src={downloadCloud} alt="" />
-                    <p>Download</p>
-                  </div>
+              <ClientContent>
+                <div style={{ borderBottom: "1px solid #e0e0e0" }}>
+                  <Header>
+                    <h3>Account Information</h3>
+                    <div className="actionBtns">
+                      <div className="downloadBtn">
+                        <img src={downloadCloud} alt="" />
+                        <p>Download</p>
+                      </div>
 
-                  {!currentlyAdmin ? (
-                    <div className="addAdminBtn" onClick={addAdminHandler}>
-                      <img src={addIcon} alt="" />
-                      <p>Add User as Admin</p>
+                      {!currentlyAdmin ? (
+                        <div className="addAdminBtn" onClick={addAdminHandler}>
+                          <img src={addIcon} alt="" />
+                          <p>Add User as Admin</p>
+                        </div>
+                      ) : (
+                        <div
+                          className="removeAdminBtn"
+                          onClick={removeFromAdminHnalder}
+                        >
+                          <AiOutlineStop />
+                          <p>Remove from Admin</p>
+                        </div>
+                      )}
                     </div>
-                  ) : (
-                    <div
-                      className="removeAdminBtn"
-                      onClick={removeFromAdminHnalder}
-                    >
-                      <AiOutlineStop />
-                      <p>Remove from Admin</p>
+                  </Header>
+                </div>
+                <OuterContent>
+                  <ContentInfo>
+                    <div className="inputFields">
+                      <p>Username</p>
+                      <input
+                        type="text"
+                        value={`${data?.customer_detail?.username}`}
+                        disabled
+                      />
                     </div>
-                  )}
-                </div>
-              </Header>
-            </div>
-            <OuterContent>
-              <ContentInfo>
-                <div className="inputFields">
-                  <p>Username</p>
-                  <input
-                    type="text"
-                    value={`${data?.customer_detail?.username}`}
-                    disabled
-                  />
-                </div>
-                <div className="inputFields">
-                  <p>Customer ID</p>
-                  <input
-                    type="text"
-                    value={data?.customer_detail?.customer_id}
-                    disabled
-                  />
-                </div>
-                <div className="inputFields">
-                  <p>Date Of Birth</p>
-                  <input
-                    type="text"
-                    value={data?.customer_detail?.dob}
-                    disabled
-                  />
-                </div>
-                <div className="inputFields">
-                  <p>BVN</p>
-                  <input type="text" value={data?.bvn_number} disabled />
-                </div>
-                <div className="inputFields">
-                  <p>Gender</p>
-                  <input
-                    type="text"
-                    value={data?.customer_detail?.gender}
-                    disabled
-                  />
-                </div>
-                <div className="inputFields">
-                  <p>Date Joined</p>
-                  <input type="text" value={data?.created_on} disabled />
-                </div>
-                <div className="inputFields">
-                  <p>Limit Per Transfer</p>
-                  <input
-                    type="text"
-                    value={limit}
-                    onFocus={() => {
-                      setLimit("");
-                    }}
-                    onChange={trsfLimitHandler}
-                  />
-                </div>
-                <div className="inputFields">
-                  <p>Daily Transfer Limit</p>
-                  <input
-                    type="text"
-                    value={dailyLimit}
-                    onFocus={() => {
-                      setDailyLimit("");
-                    }}
-                    onChange={dailyLimitHandler}
-                  />
-                </div>
-                <div className="inputFields">
-                  <p>Accounts</p>
-                  <input
-                    type="text"
-                    value={data?.accounts[0].account_no}
-                    disabled
-                  />
-                </div>
-                <div className="inputFields">
-                  <p>Lock Status</p>
-                  <input
-                    type="text"
-                    value={data?.active === false ? "Locked" : "Unlocked"}
-                    disabled
-                  />
-                </div>
-              </ContentInfo>
-              <LockUnlock>
-                {!currentlyLocked ? (
-                  <div className="lockUnlockBtn" onClick={lockAccountHandler}>
-                    <AiFillLock />
-                    <p>Lock Account</p>
-                  </div>
-                ) : (
-                  <div className="lockUnlockBtn" onClick={unlockAccountHandler}>
-                    <AiFillUnlock />
-                    <p>Unlock Account</p>
-                  </div>
-                )}
-              </LockUnlock>
-              <SaveButtonWrapper>
-                <button onClick={fireChangesHandler}>Save Changes</button>
-              </SaveButtonWrapper>
-            </OuterContent>
-          </ClientContent>
-        </Content>
-      </PageContainer>
+                    <div className="inputFields">
+                      <p>Customer ID</p>
+                      <input
+                        type="text"
+                        value={data?.customer_detail?.customer_id}
+                        disabled
+                      />
+                    </div>
+                    <div className="inputFields">
+                      <p>Date Of Birth</p>
+                      <input type="text" value={formattedDOB} disabled />
+                    </div>
+                    <div className="inputFields">
+                      <p>BVN</p>
+                      <input type="text" value={data?.bvn_number} disabled />
+                    </div>
+                    <div className="inputFields">
+                      <p>Gender</p>
+                      <input
+                        type="text"
+                        value={data?.customer_detail?.gender}
+                        disabled
+                      />
+                    </div>
+                    <div className="inputFields">
+                      <p>Date Joined</p>
+                      <input
+                        type="text"
+                        value={moment(data?.created_on).format("L")}
+                        disabled
+                      />
+                    </div>
+                    <div className="inputFields">
+                      <p>Limit Per Transfer</p>
+                      <input
+                        type="text"
+                        value={limit}
+                        onFocus={() => {
+                          setLimit("");
+                        }}
+                        onChange={trsfLimitHandler}
+                      />
+                    </div>
+                    <div className="inputFields">
+                      <p>Daily Transfer Limit</p>
+                      <input
+                        type="text"
+                        value={dailyLimit}
+                        onFocus={() => {
+                          setDailyLimit("");
+                        }}
+                        onChange={dailyLimitHandler}
+                      />
+                    </div>
+                    <div className="inputFields">
+                      <p>Accounts</p>
+                      <input
+                        type="text"
+                        value={data?.accounts[0].account_no}
+                        disabled
+                      />
+                    </div>
+                    <div className="inputFields">
+                      <p>Lock Status</p>
+                      <input
+                        type="text"
+                        value={data?.active === false ? "Locked" : "Unlocked"}
+                        disabled
+                      />
+                    </div>
+                  </ContentInfo>
+                  <LockUnlock>
+                    {!currentlyLocked ? (
+                      <div
+                        className="lockUnlockBtn"
+                        onClick={lockAccountHandler}
+                      >
+                        <AiFillLock />
+                        <p>Lock Account</p>
+                      </div>
+                    ) : (
+                      <div
+                        className="lockUnlockBtn"
+                        onClick={unlockAccountHandler}
+                      >
+                        <AiFillUnlock />
+                        <p>Unlock Account</p>
+                      </div>
+                    )}
+                  </LockUnlock>
+                  <SaveButtonWrapper>
+                    <button onClick={fireChangesHandler}>Save Changes</button>
+                  </SaveButtonWrapper>
+                </OuterContent>
+              </ClientContent>
+            </Content>
+          </PageContainer>
+        )}
+      </>
     </Wrapper>
   );
 };
@@ -341,5 +397,6 @@ const SaveButtonWrapper = styled.div`
     padding: 8px 15px;
     font-size: 12px;
     border-radius: 4px;
+    cursor: pointer;
   }
 `;

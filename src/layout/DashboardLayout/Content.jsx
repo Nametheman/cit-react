@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { ReactComponent as ChevronLeft } from '../../assets/icons/chevron-left.svg';
+import React from "react";
+import styled from "styled-components";
+import { ReactComponent as ChevronLeft } from "../../assets/icons/chevron-left.svg";
 const Content = ({ children }) => {
   return <Container>{children}</Container>;
 };

@@ -2,12 +2,13 @@ import React from "react";
 import moment from "moment";
 import classes from "./Table.module.css";
 import nodata from "../../assets/images/no-data.gif";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { modalActions } from "../../store/ui-slice";
 import { useDispatch } from "react-redux";
 
 const ReusableTable = ({ data, columns, type, icon, init }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   return (
     <>
@@ -51,9 +52,9 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                       key={index}
                       style={{
                         background: index % 2 === 0 ? "#fff" : "#EEEFEF",
-                        fontSize: "0.8rem", 
+                        fontSize: "0.8rem",
                         fontWeight: "500",
-                        textAlign: "center",
+                        // textAlign: "center",
                       }}
                     >
                       <td
@@ -100,6 +101,8 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                         style={{
                           borderRight: "1px solid #d7d7d780",
                           height: "40px",
+                          padding: "0 10px",
+
                           textTransform: "capitalize",
                         }}
                       >
@@ -109,11 +112,22 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                             display: "flex",
                             gap: "15px",
                             alignItems: "center",
-                            justifyContent: "space-around",
+                            justifyContent: "space-between",
                           }}
                           className={classes.recentReview}
                         >
-                          {datum?.gender} <button>Review</button>
+                          {datum?.gender}
+                          <button
+                            onClick={() => {
+                              sessionStorage.setItem(
+                                "pendingcustomerId",
+                                JSON.stringify(datum?.id)
+                              );
+                              history.push("/pending-review");
+                            }}
+                          >
+                            Review
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -160,6 +174,8 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
               </thead>
               <tbody>
                 {data?.map((datum, index) => {
+                  const formattedDate =
+                    datum?.customer_detail?.dob.split(" ")[0];
                   return (
                     <tr
                       key={index}
@@ -214,7 +230,7 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                           paddingLeft: "10px",
                         }}
                       >
-                        {datum?.customer_detail.dob}
+                        {formattedDate}
                       </td>
                       <td
                         style={{
@@ -230,7 +246,8 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                             display: "flex",
                             gap: "15px",
                             alignItems: "center",
-                            justifyContent: "space-around",
+                            justifyContent: "space-between",
+                            padding: "0 10px",
                           }}
                           className={classes.recentReview}
                         >
@@ -361,7 +378,8 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                             display: "flex",
                             gap: "15px",
                             alignItems: "center",
-                            justifyContent: "space-around",
+                            justifyContent: "space-between",
+                            padding: "0 10px",
                           }}
                           className={classes.recentReview}
                         >
@@ -491,7 +509,8 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                             display: "flex",
                             gap: "15px",
                             alignItems: "center",
-                            justifyContent: "space-around",
+                            justifyContent: "space-between",
+                            padding: "0 10px",
                           }}
                           className={classes.recentReview}
                         >
@@ -502,9 +521,11 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                                 "declinedCustomerId",
                                 JSON.stringify(datum?.id)
                               );
-                              dispatch(
-                                modalActions.toggleShowRejectionReasonModal()
-                              );
+                              setTimeout(() => {
+                                dispatch(
+                                  modalActions.toggleShowRejectionReasonModal()
+                                );
+                              }, 1300);
                             }}
                           >
                             View
@@ -623,15 +644,15 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                             display: "flex",
                             gap: "15px",
                             alignItems: "center",
-                            justifyContent: "space-around",
+                            justifyContent: "space-between",
+                            padding: "0 10px",
                           }}
                           className={classes.recentReview}
                         >
-                          {datum?.gender}{" "}
+                          {datum?.gender}
                           <Link
                             to="/pending-review"
                             onClick={() => {
-                              // alert(datum?.customer_detail?.customer_id)
                               sessionStorage.setItem(
                                 "pendingcustomerId",
                                 JSON.stringify(datum?.id)
@@ -711,7 +732,7 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                           paddingLeft: "10px",
                         }}
                       >
-                        {datum?.created_on}
+                        {moment(datum?.created_on).format("L")}
                       </td>
                       <td
                         style={{
@@ -789,12 +810,15 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                               ? "rgba(255, 173, 51, 0.1)"
                               : ""
                           }`,
-                          borderRadius: "5px",
+                          borderRadius: "3px",
                           display: "flex",
                           justifyContent: "center",
                           textAlign: "center",
                           padding: "0.3em 1em",
                           alignItems: "center",
+                          marginTop: "10%",
+                          marginLeft: "5px",
+                          width: "40px",
                         }}
                       >{`${
                         datum.status === "success"
@@ -874,7 +898,7 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                           paddingLeft: "10px",
                         }}
                       >
-                        {datum?.created_on}
+                        {moment(datum?.created_on).format("L")}
                       </td>
                       <td
                         style={{
@@ -932,12 +956,15 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                               ? "rgba(255, 173, 51, 0.1)"
                               : ""
                           }`,
-                          borderRadius: "5px",
+                          borderRadius: "3px",
                           display: "flex",
                           justifyContent: "center",
                           textAlign: "center",
-                          padding: "0.3em 1em",
+                          padding: "0.3em 0.7em",
                           alignItems: "center",
+                          marginTop: "5%",
+                          marginLeft: "40px",
+                          width: "40px",
                         }}
                       >{`${
                         datum.status === "SUCCESS" || "success"
@@ -1013,7 +1040,7 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                           paddingLeft: "10px",
                         }}
                       >
-                        {datum?.created_on}
+                        {moment(datum?.created_on).format("L")}
                       </td>
                       <td
                         style={{
@@ -1071,12 +1098,15 @@ const ReusableTable = ({ data, columns, type, icon, init }) => {
                               ? "rgba(255, 173, 51, 0.1)"
                               : ""
                           }`,
-                          borderRadius: "5px",
+                          borderRadius: "3px",
                           display: "flex",
                           justifyContent: "center",
                           textAlign: "center",
-                          padding: "0.3em 1em",
+                          padding: "0.3em 0.7em",
                           alignItems: "center",
+                          marginTop: "5%",
+                          marginLeft: "40px",
+                          width: "40px",
                         }}
                       >{`${
                         datum.status === "SUCCESS" || "success"

@@ -86,7 +86,7 @@ const Home = () => {
     data?.airtime_purchase_total,
     data?.data_purchase_total,
     data?.cable_tv_purchase_total,
-    0,
+    data?.electricity_purchase_total,
   ];
   return (
     <>
@@ -204,6 +204,7 @@ const Home = () => {
 
         <ChartWrapper>
           <LineChartWrapper>
+            <h3>Recent Transactions</h3>
             <Bar />
           </LineChartWrapper>
           <TableWrapper>
@@ -346,6 +347,9 @@ const BigCardWrapper = styled.div`
       display: flex;
       width: 26rem;
       justify-content: space-around;
+      @media only screen and (min-width: 1400px) {
+        width: 36.4rem;
+      }
 
       .bill-card {
         height: 60px;
@@ -377,6 +381,10 @@ const BigCardWrapper = styled.div`
       height: 6.3rem;
       width: 26rem;
 
+      @media only screen and (min-width: 1400px) {
+        width: 36.4rem;
+      }
+
       img {
         width: 120px;
       }
@@ -396,12 +404,23 @@ const ChartWrapper = styled.div`
   // position: absolute;
   // z-index: 5;
   position: relative;
+  @media only screen and (min-width: 1400px) {
+    width: 54.1rem;
+  }
 `;
 const LineChartWrapper = styled.div`
   background: #fff;
   width: 703px;
   border-radius: 30px;
   margin-top: 270px;
+
+  h3 {
+    padding: 20px;
+  }
+
+  @media only screen and (min-width: 1400px) {
+    width: 54.8rem;
+  }
 `;
 
 const PieChartWrapper = styled.div`
@@ -412,5 +431,8 @@ const PieChartWrapper = styled.div`
   top: 290px;
   right: 3.5rem;
   height: 300px;
+  @media only screen and (min-width: 1400px) {
+    right: 3.1rem;
+  }
 `;
 const TableWrapper = styled.div``;

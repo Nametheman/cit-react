@@ -38,3 +38,7 @@ tr a {
   border-radius: 3px;
   background: #0e814a;
 }
+
+tr td {
+  padding-left: 10px;
+}

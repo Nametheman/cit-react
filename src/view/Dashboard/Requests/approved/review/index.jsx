@@ -1,31 +1,30 @@
-import React from 'react'
-import { Route } from 'react-router-dom';
-import { DashboardLayout } from '../../../../../layout';
-import Home from './Home';
-import styled from 'styled-components';
-
+import React from "react";
+import { Route } from "react-router-dom";
+import { DashboardLayout } from "../../../../../layout";
+import Home from "./Home";
+import styled from "styled-components";
+import { PDFViewer } from "@react-pdf/renderer";
 
 const Index = () => {
   return (
     <DashboardLayout
       children={
         <Container>
-            <Route exact path='/approved-review'>
-                <Home />
-            </Route>
+          <Route exact path="/approved-review">
+            <Home />
+          </Route>
         </Container>
       }
     />
-  )
-}
+  );
+};
 
-export default Index
-
+export default Index;
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
-//   padding: 0 20px;
+  //   padding: 0 20px;
   overflow-x: hidden !important;
   h1 {
     font-size: 25px;

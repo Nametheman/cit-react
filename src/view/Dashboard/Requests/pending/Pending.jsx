@@ -116,7 +116,7 @@ const Pending = () => {
     };
 
     getPendingRequests();
-  }, []);
+  }, [currentPage]);
   console.log(data);
 
   const csvExportHandler = () => {
