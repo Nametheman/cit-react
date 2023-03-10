@@ -3,7 +3,6 @@ import { Route } from "react-router-dom";
 import { DashboardLayout } from "../../../../../layout";
 import Home from "./Home";
 import styled from "styled-components";
-import { PDFViewer } from "@react-pdf/renderer";
 
 const Index = () => {
   return (
