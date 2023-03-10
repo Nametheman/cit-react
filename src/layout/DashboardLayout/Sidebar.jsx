@@ -33,6 +33,7 @@ const Sidebar = () => {
   const path6 = "/bills";
   // const path7 = "/dashboard";
 
+  console.log('hi')
   const location = useLocation();
 
   const currLocation = location.pathname;
