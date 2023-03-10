@@ -81,6 +81,8 @@ const Index = () => {
     e.preventDefault();
     setSubmitted(true);
     authenticateUser();
+    setUserName("");
+    setPassword("");
   };
 
   const passwordHandler = () => {
@@ -121,7 +123,11 @@ const Index = () => {
                 <label>Username</label>
                 <div className="input-field">
                   <BiUser style={{ opacity: "0.6" }} />
-                  <input onChange={inputNameHandler} type="text" />
+                  <input
+                    onChange={inputNameHandler}
+                    type="text"
+                    value={username}
+                  />
                 </div>
               </div>
               <div className="form-input">
@@ -131,6 +137,7 @@ const Index = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     onChange={inputPassHandler}
+                    value={password}
                   />
                   <div style={{ cursor: "pointer" }} onClick={passwordHandler}>
                     {showPassword ? <AiOutlineEyeInvisible /> : <BiShowAlt />}

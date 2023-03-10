@@ -33,11 +33,13 @@ const Sidebar = () => {
   const path6 = "/bills";
   // const path7 = "/dashboard";
 
-  console.log('hi')
+  console.log("hi");
   const location = useLocation();
 
   const currLocation = location.pathname;
   console.log(currLocation);
+
+  sessionStorage.setItem("tab", JSON.stringify(path1));
 
   const activeTab = JSON.parse(sessionStorage.getItem("tab"));
   console.log(activeTab);
@@ -81,7 +83,11 @@ const Sidebar = () => {
         </Link>
         <Link
           to="/customers"
-          className={currLocation === path2 || currLocation === '/customer-review' ? "active" : ""}
+          className={
+            currLocation === path2 || currLocation === "/customer-review"
+              ? "active"
+              : ""
+          }
           onClick={() => {
             sessionStorage.setItem("tab", JSON.stringify("/customers"));
           }}
@@ -448,6 +454,7 @@ const LogoutWrapper = styled.div`
   }
 
   a {
+    margin-top: 8px;
     color: red;
     background: transparent !important;
 

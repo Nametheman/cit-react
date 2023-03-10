@@ -23,7 +23,6 @@ export default index;
 
 const Container = styled.div`
   width: 100%;
-  max-width: 1280px;
   height: 100vh;
   box-sizing: border-box;
   display: grid;
